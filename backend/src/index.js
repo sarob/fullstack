@@ -1,14 +1,19 @@
 const express = require('express');
+     const { ApolloServer } = require('apollo-server-express');
 
-const app = express();
-const port = 3000;
+     const app = express();
+     const port = 3000;
 
-// Define routes
-app.get('/', (req, res) => {
-    res.send('Hello, World!');
-});
+     // Define your Apollo Server and Nexus schema here
 
-// Start the server
-app.listen(port, () => {
-    console.log(`Server is running on port ${port}`);
-});
+     async function startApolloServer() {
+       const server = new ApolloServer({ /* Your Nexus schema */ });
+       await server.start();
+       server.applyMiddleware({ app });
+
+       app.listen(port, () => {
+         console.log(`Server listening on port ${port}`);
+       });
+     }
+
+     startApolloServer();
